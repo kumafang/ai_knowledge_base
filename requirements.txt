@@ -7,3 +7,4 @@ python-docx
 python-pptx
 faiss-cpu
 Chroma
+openpyxl
