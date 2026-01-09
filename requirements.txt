@@ -1,0 +1,9 @@
+streamlit
+openai
+python-dotenv
+pandas
+pdfplumber
+python-docx
+python-pptx
+faiss-cpu
+Chroma
