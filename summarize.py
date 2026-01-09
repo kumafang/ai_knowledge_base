@@ -72,10 +72,11 @@ def summarize_and_store(content, source="manual"):
         # push 回 GitHub
     try:
         subprocess.run(["git", "add", KB_PATH], check=True)
-        subprocess.run(["git", "commit", "-m", f"Update knowledge_base: {source}"], check=True)
+        # 如果没有 commit 则 commit，否则 git 会提示 nothing to commit
+        subprocess.run(["git", "commit", "-m", f"Update knowledge_base: {source}"], check=False)
         subprocess.run(["git", "push", GITHUB_REPO, "main"], check=True)
-        print("Knowledge base updated and pushed!")
-    except subprocess.CalledProcessError as e:
+        print("Knowledge base pushed to GitHub!")
+    except Exception as e:
         print("Git push failed:", e)
         
-    return summary
+    return summary, data
