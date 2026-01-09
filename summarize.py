@@ -14,8 +14,28 @@ from openai import OpenAI
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
 KB_PATH = "knowledge_base.json"
+# GitHub Token 从 Secrets 获取
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+GITHUB_REPO = f"https://{GITHUB_TOKEN}@github.com/kumafang/ai_knowledge_base.git"
+
+def load_latest_kb():
+    # 从 GitHub 拉取最新版本
+    try:
+        subprocess.run(["git", "pull", GITHUB_REPO, "main"], check=True)
+    except subprocess.CalledProcessError as e:
+        print("Git pull failed, maybe first run:", e)
+
+    if os.path.exists(KB_PATH):
+        with open(KB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    else:
+        data = []
+
+    return data
+
 
 def summarize_and_store(content, source="manual"):
+    data = load_latest_kb()  # 拉取最新 KB
     prompt = f"""
 你是一个知识整理助手。
 请从以下内容中提炼最重要、最核心的信息。
@@ -49,4 +69,13 @@ def summarize_and_store(content, source="manual"):
     with open(KB_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
+        # push 回 GitHub
+    try:
+        subprocess.run(["git", "add", KB_PATH], check=True)
+        subprocess.run(["git", "commit", "-m", f"Update knowledge_base: {source}"], check=True)
+        subprocess.run(["git", "push", GITHUB_REPO, "main"], check=True)
+        print("Knowledge base updated and pushed!")
+    except subprocess.CalledProcessError as e:
+        print("Git push failed:", e)
+        
     return summary
