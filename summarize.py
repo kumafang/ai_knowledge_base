@@ -16,7 +16,7 @@ client = OpenAI(api_key=openai_api_key)
 KB_PATH = "knowledge_base.json"
 # GitHub Token 从 Secrets 获取
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-GITHUB_REPO = f"https://{GITHUB_TOKEN}@github.com/kumafang/ai_knowledge_base.git"
+GITHUB_REPO = os.environ.get("GITHUB_REPO")
 
 def load_latest_kb():
     # 从 GitHub 拉取最新版本
