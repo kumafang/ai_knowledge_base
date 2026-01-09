@@ -79,4 +79,4 @@ def summarize_and_store(content, source="manual"):
     except Exception as e:
         print("Git push failed:", e)
         
-    return summary, data
+    return summary
