@@ -18,8 +18,6 @@ KB_PATH = "knowledge_base.json"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO")
 
-git config --global user.email "kumafang@hotmail.com"
-git config --global user.name "kumafang"
 
 def load_latest_kb():
     # 从 GitHub 拉取最新版本
@@ -74,6 +72,7 @@ def summarize_and_store(content, source="manual"):
 
         # push 回 GitHub
     try:
+        subprocess.run(["git", "config", "--global", "kuma_fang@hotmail.com", "kumafang"])
         subprocess.run(["git", "add", KB_PATH], check=True)
         # 如果没有 commit 则 commit，否则 git 会提示 nothing to commit
         subprocess.run(["git", "commit", "-m", f"Update knowledge_base: {source}"], check=False)
