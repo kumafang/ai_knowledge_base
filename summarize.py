@@ -9,7 +9,7 @@ Created on Fri Jan  9 19:22:20 2026
 import json
 import os
 from openai import OpenAI
-
+import subprocess
 
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_api_key)
