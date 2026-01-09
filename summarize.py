@@ -18,6 +18,9 @@ KB_PATH = "knowledge_base.json"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO")
 
+git config --global user.email "kumafang@hotmail.com"
+git config --global user.name "kumafang"
+
 def load_latest_kb():
     # 从 GitHub 拉取最新版本
     try:
